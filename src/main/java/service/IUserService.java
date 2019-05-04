@@ -4,7 +4,7 @@ import entity.User;
 import exceptions.UserNotFoundException;
 
 public interface IUserService {
-
-	boolean authenticate(final User user) throws UserNotFoundException;
+	
+	boolean authenticate(User user) throws UserNotFoundException;
 
 }

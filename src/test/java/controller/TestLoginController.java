@@ -1,36 +1,67 @@
 package controller;
 
-import org.apache.catalina.User;
+import entity.User;
+import exceptions.UserNotFoundException;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.mockito.internal.verification.Times;
 
 import service.IUserService;
 
 public class TestLoginController {
 	@Mock
 	private IUserService userService;
-	
+
 	@InjectMocks
 	private LoginController loginController;
-	
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 	}
-	
-//	@Test
-//	public void testAuthenticate() throws Exception {
-//		final User userStub = new User();
-//		userStub.setUsername("elif");
-//		userStub.setPassword("password");
-//		
-//		Mockito.when(userService.authenticate(userStub)).
-//		
-//		
-//	}
+
+	@Test
+	public void testAuthenticate() throws Exception {
+		User userStub = new User();
+		userStub.setUserName("elif");
+		userStub.setPassword("1234");
+
+		Mockito.when(userService.authenticate((entity.User) userStub)).thenReturn(true);
+		final String redirect = loginController.authenticate(userStub);
+		Assert.assertEquals("homePage", redirect);
+		Mockito.verify(userService, new Times(1)).authenticate(Mockito.any(User.class));
+
+	}
+
+	@Test
+	public void testAuhtenticationForUserNotFound() throws Exception {
+		User userStub = new User();
+		userStub.setUserName("elif");
+		userStub.setPassword("1234");
+
+		Mockito.when(userService.authenticate(userStub)).thenThrow(UserNotFoundException.class);
+		final String redirect = loginController.authenticate(userStub);
+		Assert.assertEquals(redirect, "errorPage?message=userNotFound");
+		Mockito.verify(userService, new Times(1)).authenticate(Mockito.any(User.class));
+
+	}
+
+	@Test
+	public void testAuhtenticationForWrongPassword() throws Exception {
+
+		User userStub = new User();
+		userStub.setUserName("elif");
+		userStub.setPassword("1234");
+ 
+		Mockito.when(userService.authenticate(userStub)).thenReturn(false);
+		final String redirect = loginController.authenticate(userStub);
+
+		Assert.assertEquals(redirect, "errorPage?message=wrongPassword");
+		Mockito.verify(userService, new Times(1)).authenticate(Mockito.any(User.class));
+
+	}
 
 }
