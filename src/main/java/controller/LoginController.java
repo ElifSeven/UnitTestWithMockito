@@ -24,12 +24,12 @@ public class LoginController implements Serializable {
 		try {
 			if (userService.authenticate(user)) {
 				return "homePage";
-			} else { 
+			} else {
 				return "errorPage?message=wrongPassword";
 			}
 
 		} catch (UserNotFoundException e) {
-			logger.error("User not found for username: {}", user.getUserName(),e);
+			logger.error("User not found for username: {}", user.getUserName(), e);
 			return "errorPage?message=userNotFound";
 
 		}

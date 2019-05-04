@@ -55,7 +55,7 @@ public class TestLoginController {
 		User userStub = new User();
 		userStub.setUserName("elif");
 		userStub.setPassword("1234");
- 
+
 		Mockito.when(userService.authenticate(userStub)).thenReturn(false);
 		final String redirect = loginController.authenticate(userStub);
 
