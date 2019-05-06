@@ -1,7 +1,7 @@
 package service;
 
-import entity.User;
 import exceptions.UserNotFoundException;
+import model.User;
 
 public interface IUserService {
 	

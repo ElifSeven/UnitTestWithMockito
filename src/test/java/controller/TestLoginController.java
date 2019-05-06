@@ -1,7 +1,7 @@
 package controller;
 
-import entity.User;
 import exceptions.UserNotFoundException;
+import model.User;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class TestLoginController {
 		userStub.setUserName("elif");
 		userStub.setPassword("1234");
 
-		Mockito.when(userService.authenticate((entity.User) userStub)).thenReturn(true);
+		Mockito.when(userService.authenticate((model.User) userStub)).thenReturn(true);
 		final String redirect = loginController.authenticate(userStub);
 		Assert.assertEquals("homePage", redirect);
 		Mockito.verify(userService, new Times(1)).authenticate(Mockito.any(User.class));

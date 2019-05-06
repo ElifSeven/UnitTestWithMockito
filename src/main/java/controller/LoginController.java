@@ -5,8 +5,8 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import entity.User;
 import exceptions.UserNotFoundException;
+import model.User;
 import service.IUserService;
 
 public class LoginController implements Serializable {
